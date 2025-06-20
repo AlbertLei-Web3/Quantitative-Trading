@@ -174,16 +174,19 @@ class PumpShortStrategy:
             current_price = float(df.iloc[-1]['close'])
             
             # 确保有足够的历史数据 / Ensure sufficient historical data
-            if len(df) <= self.lookback_days:
+            if len(df) <= self.lookback_days * 24:  # 修复：考虑小时级数据 / Fix: consider hourly data
                 past_price = float(df.iloc[0]['close'])
             else:
-                past_price = float(df.iloc[-(self.lookback_days + 1)]['close'])
+                # 修复：计算正确的回望期间 / Fix: calculate correct lookback period
+                lookback_hours = self.lookback_days * 24
+                past_price = float(df.iloc[-(lookback_hours)]['close'])
             
             gain_rate = (current_price - past_price) / past_price
             
             # 反泡沫过滤：检查成交量是否跟上 / Anti-bubble filter: check if volume follows
-            recent_volume = df.tail(self.lookback_days)['volume'].mean()
-            historical_volume = df.head(len(df) - self.lookback_days)['volume'].mean() if len(df) > self.lookback_days else recent_volume
+            lookback_hours = min(self.lookback_days * 24, len(df) // 2)
+            recent_volume = df.tail(lookback_hours)['volume'].mean()
+            historical_volume = df.head(len(df) - lookback_hours)['volume'].mean() if len(df) > lookback_hours else recent_volume
             
             volume_ratio = recent_volume / historical_volume if historical_volume > 0 else 1.0
             
@@ -194,8 +197,23 @@ class PumpShortStrategy:
                 'detected': is_pump,
                 'gain_rate': gain_rate,
                 'volume_ratio': volume_ratio,
-                'bubble_risk': volume_ratio < self.volume_multiplier  # 泡沫风险 / Bubble risk
+                'bubble_risk': volume_ratio < self.volume_multiplier,  # 泡沫风险 / Bubble risk
+                'debug_info': {
+                    'current_price': current_price,
+                    'past_price': past_price,
+                    'data_length': len(df),
+                    'lookback_hours': lookback_hours
+                }
             }
+            
+            # 详细调试日志 / Detailed debug logging
+            self.logger.info(f"🔍 暴涨检测调试 / Pump detection debug:")
+            self.logger.info(f"  - 当前价格 / Current price: {current_price:.6f}")
+            self.logger.info(f"  - 过去价格 / Past price: {past_price:.6f}")
+            self.logger.info(f"  - 涨幅 / Gain rate: {gain_rate:.2%}")
+            self.logger.info(f"  - 阈值 / Threshold: {self.pump_threshold:.2%}")
+            self.logger.info(f"  - 成交量比 / Volume ratio: {volume_ratio:.2f}")
+            self.logger.info(f"  - 是否检测到暴涨 / Pump detected: {is_pump}")
             
             if is_pump:
                 self.logger.info(f"🚨 检测到暴涨信号 / Pump signal detected: 涨幅 {gain_rate:.2%}, 成交量比 {volume_ratio:.2f}")
@@ -264,13 +282,38 @@ class PumpShortStrategy:
                 reversal_type = 'doji' if reversal_type == 'none' else f"{reversal_type}_doji"
                 detected = True
             
+            # 修复：在暴涨行情中降低反转信号门槛 / Fix: lower reversal signal threshold in pump scenarios
+            # 检查是否在高位（最近价格明显高于历史） / Check if at high levels
+            if len(df) >= 10:
+                recent_high = df.tail(10)['high'].max()
+                historical_avg = df.head(len(df) - 10)['close'].mean() if len(df) > 10 else close_price
+                
+                if recent_high > historical_avg * 1.5:  # 如果最近高点比历史均价高50%以上 / If recent high is 50%+ above historical average
+                    # 放宽反转条件 / Relax reversal conditions
+                    if is_bearish or upper_shadow_ratio >= 0.2:  # 降低上影线要求 / Lower upper shadow requirement
+                        reversal_type = 'high_level_reversal'
+                        detected = True
+            
             result = {
                 'detected': detected,
                 'type': reversal_type,
                 'volume_ratio': volume_ratio,
                 'upper_shadow_ratio': upper_shadow / total_range if total_range > 0 else 0,
-                'body_ratio': body_size / total_range if total_range > 0 else 0
+                'body_ratio': body_size / total_range if total_range > 0 else 0,
+                'debug_info': {
+                    'is_bearish': is_bearish,
+                    'is_high_volume': is_high_volume,
+                    'upper_shadow_ratio': upper_shadow / total_range if total_range > 0 else 0
+                }
             }
+            
+            # 详细调试日志 / Detailed debug logging
+            self.logger.info(f"🔍 反转信号检测调试 / Reversal signal debug:")
+            self.logger.info(f"  - 是否阴线 / Is bearish: {is_bearish}")
+            self.logger.info(f"  - 成交量比 / Volume ratio: {volume_ratio:.2f}")
+            self.logger.info(f"  - 上影线比例 / Upper shadow ratio: {result['upper_shadow_ratio']:.2%}")
+            self.logger.info(f"  - 反转类型 / Reversal type: {reversal_type}")
+            self.logger.info(f"  - 是否检测到反转 / Reversal detected: {detected}")
             
             if detected:
                 self.logger.info(f"🔄 检测到反转信号 / Reversal signal detected: 类型 {reversal_type}, 成交量比 {volume_ratio:.2f}")

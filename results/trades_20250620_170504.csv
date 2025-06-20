@@ -1,0 +1,6 @@
+timestamp,symbol,action,price,quantity,value,reason,signal_strength,metadata
+2024-01-01 18:00:00,TEST,OPEN_SHORT,0.222,3603.6036036036035,800.0,strategy_signal,0.9738875878220141,"{'pump_gain': 0.819672131147541, 'reversal_type': 'high_level_reversal', 'volume_ratio': 1.0714285714285714, 'timestamp': Timestamp('2024-01-01 18:00:00')}"
+2024-01-02 03:00:00,TEST,OPEN_SHORT,0.312,2635.4511434511437,822.2607567567568,strategy_signal,1.0,"{'pump_gain': 1.5573770491803278, 'reversal_type': 'high_level_reversal', 'volume_ratio': 1.0434782608695652, 'timestamp': Timestamp('2024-01-02 03:00:00')}"
+2024-01-02 15:00:00,TEST,OPEN_SHORT,0.432,1956.5291580611383,845.2205962824117,strategy_signal,1.0,"{'pump_gain': 2.540983606557377, 'reversal_type': 'high_level_reversal', 'volume_ratio': 1.0285714285714285, 'timestamp': Timestamp('2024-01-02 15:00:00')}"
+2024-01-03 23:00:00,TEST,OPEN_SHORT,0.372,2248.8661711973764,836.5782156854241,strategy_signal,1.0,"{'pump_gain': 2.0491803278688523, 'reversal_type': 'upper_shadow', 'volume_ratio': 1.0149253731343284, 'timestamp': Timestamp('2024-01-03 23:00:00')}"
+2024-01-04 10:00:00,TEST,OPEN_SHORT,0.318,2601.8725327858406,827.3954654258973,strategy_signal,0.9696642246642247,"{'pump_gain': 0.8171428571428573, 'reversal_type': 'upper_shadow', 'volume_ratio': 1.0128205128205128, 'timestamp': Timestamp('2024-01-04 10:00:00')}"
