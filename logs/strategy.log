@@ -1,0 +1,84 @@
+2025-06-20 16:45:09 - StrategyBacktester - INFO - 🚀 策略回测器初始化完成 / Strategy backtester initialized
+2025-06-20 16:45:09 - StrategyBacktester - INFO - 📊 开始加载数据 / Starting to load data: data/sample_kline.csv
+2025-06-20 16:45:09 - StrategyBacktester - INFO - ✅ 数据加载成功 / Data loaded successfully: 96 条记录 / records, 时间范围 / Time range: 2024-01-01 00:00:00 到 / to 2024-01-04 23:00:00
+2025-06-20 16:45:09 - StrategyBacktester - INFO - ⚙️ 开始初始化策略组件 / Starting to initialize strategy components
+2025-06-20 16:45:09 - StrategyBacktester - INFO - ✅ 策略初始化完成 / Strategy initialized
+2025-06-20 16:45:09 - StrategyBacktester - INFO - ✅ 投资组合初始化完成 / Portfolio initialized: $10,000.00
+2025-06-20 16:45:09 - StrategyBacktester - INFO - ✅ 交易执行器初始化完成 / Trade executor initialized
+2025-06-20 16:45:09 - StrategyBacktester - INFO - 🎯 开始执行回测 / Starting backtest for symbol: TEST
+2025-06-20 16:45:09 - StrategyBacktester - INFO - 📊 回测数据概览 / Backtest data overview:
+2025-06-20 16:45:09 - StrategyBacktester - INFO -   - 总K线数量 / Total bars: 96
+2025-06-20 16:45:09 - StrategyBacktester - INFO -   - 数据范围 / Data range: 2024-01-01 00:00:00 到 / to 2024-01-04 23:00:00
+2025-06-20 16:45:09 - StrategyBacktester - INFO - ⏳ 回测进度 / Progress: 100.0% (86/86), 组合价值 / Portfolio Value: $10,000.00
+2025-06-20 16:45:09 - StrategyBacktester - INFO - ✅ 回测执行完成 / Backtest completed:
+2025-06-20 16:45:09 - StrategyBacktester - INFO -   - 处理K线数量 / Processed bars: 86
+2025-06-20 16:45:09 - StrategyBacktester - INFO -   - 生成信号数量 / Signals generated: 0
+2025-06-20 16:45:09 - StrategyBacktester - INFO -   - 执行交易数量 / Trades executed: 0
+2025-06-20 16:45:09 - StrategyBacktester - INFO - 📊 开始计算性能指标 / Starting to calculate performance metrics
+2025-06-20 16:45:09 - StrategyBacktester - INFO - ✅ 性能指标计算完成 / Performance metrics calculation completed
+2025-06-20 16:45:09 - StrategyBacktester - INFO - 📄 开始生成回测报告 / Starting to generate backtest report: results
+2025-06-20 16:45:09 - StrategyBacktester - INFO - ✅ 净值曲线导出 / Equity curve exported: results\equity_curve_20250620_164509.csv
+2025-06-20 16:45:09 - StrategyBacktester - INFO - ✅ 详细报告生成 / Detailed report generated: results\backtest_report_20250620_164509.md
+2025-06-20 16:46:20 - StrategyBacktester - INFO - 🚀 策略回测器初始化完成 / Strategy backtester initialized
+2025-06-20 16:46:20 - StrategyBacktester - INFO - 📊 开始加载数据 / Starting to load data: data/sample_kline.csv
+2025-06-20 16:46:20 - StrategyBacktester - INFO - ✅ 数据加载成功 / Data loaded successfully: 96 条记录 / records, 时间范围 / Time range: 2024-01-01 00:00:00 到 / to 2024-01-04 23:00:00
+2025-06-20 16:46:20 - StrategyBacktester - INFO - ⚙️ 开始初始化策略组件 / Starting to initialize strategy components
+2025-06-20 16:46:20 - StrategyBacktester - INFO - ✅ 策略初始化完成 / Strategy initialized
+2025-06-20 16:46:20 - StrategyBacktester - INFO - ✅ 投资组合初始化完成 / Portfolio initialized: $10,000.00
+2025-06-20 16:46:20 - StrategyBacktester - INFO - ✅ 交易执行器初始化完成 / Trade executor initialized
+2025-06-20 16:46:20 - StrategyBacktester - INFO - 🎯 开始执行回测 / Starting backtest for symbol: TEST
+2025-06-20 16:46:20 - StrategyBacktester - INFO - 📊 回测数据概览 / Backtest data overview:
+2025-06-20 16:46:20 - StrategyBacktester - INFO -   - 总K线数量 / Total bars: 96
+2025-06-20 16:46:20 - StrategyBacktester - INFO -   - 数据范围 / Data range: 2024-01-01 00:00:00 到 / to 2024-01-04 23:00:00
+2025-06-20 16:46:21 - StrategyBacktester - INFO - ⏳ 回测进度 / Progress: 100.0% (86/86), 组合价值 / Portfolio Value: $10,000.00
+2025-06-20 16:46:21 - StrategyBacktester - INFO - ✅ 回测执行完成 / Backtest completed:
+2025-06-20 16:46:21 - StrategyBacktester - INFO -   - 处理K线数量 / Processed bars: 86
+2025-06-20 16:46:21 - StrategyBacktester - INFO -   - 生成信号数量 / Signals generated: 0
+2025-06-20 16:46:21 - StrategyBacktester - INFO -   - 执行交易数量 / Trades executed: 0
+2025-06-20 16:46:21 - StrategyBacktester - INFO - 📊 开始计算性能指标 / Starting to calculate performance metrics
+2025-06-20 16:46:21 - StrategyBacktester - INFO - ✅ 性能指标计算完成 / Performance metrics calculation completed
+2025-06-20 16:46:21 - StrategyBacktester - INFO - 📄 开始生成回测报告 / Starting to generate backtest report: results
+2025-06-20 16:46:21 - StrategyBacktester - INFO - ✅ 净值曲线导出 / Equity curve exported: results\equity_curve_20250620_164621.csv
+2025-06-20 16:46:21 - StrategyBacktester - INFO - ✅ 详细报告生成 / Detailed report generated: results\backtest_report_20250620_164621.md
+2025-06-20 16:48:53 - StrategyBacktester - INFO - 🚀 策略回测器初始化完成 / Strategy backtester initialized
+2025-06-20 16:48:53 - StrategyBacktester - INFO - 📊 开始加载数据 / Starting to load data: data/sample_kline_fixed.csv
+2025-06-20 16:48:53 - StrategyBacktester - INFO - ✅ 数据加载成功 / Data loaded successfully: 96 条记录 / records, 时间范围 / Time range: 2024-01-01 00:00:00 到 / to 2024-01-04 23:00:00
+2025-06-20 16:48:53 - StrategyBacktester - INFO - ⚙️ 开始初始化策略组件 / Starting to initialize strategy components
+2025-06-20 16:48:53 - StrategyBacktester - INFO - ✅ 策略初始化完成 / Strategy initialized
+2025-06-20 16:48:53 - StrategyBacktester - INFO - ✅ 投资组合初始化完成 / Portfolio initialized: $10,000.00
+2025-06-20 16:48:53 - StrategyBacktester - INFO - ✅ 交易执行器初始化完成 / Trade executor initialized
+2025-06-20 16:48:53 - StrategyBacktester - INFO - 🎯 开始执行回测 / Starting backtest for symbol: TEST
+2025-06-20 16:48:53 - StrategyBacktester - INFO - 📊 回测数据概览 / Backtest data overview:
+2025-06-20 16:48:53 - StrategyBacktester - INFO -   - 总K线数量 / Total bars: 96
+2025-06-20 16:48:53 - StrategyBacktester - INFO -   - 数据范围 / Data range: 2024-01-01 00:00:00 到 / to 2024-01-04 23:00:00
+2025-06-20 16:48:54 - StrategyBacktester - INFO - ⏳ 回测进度 / Progress: 100.0% (86/86), 组合价值 / Portfolio Value: $10,000.00
+2025-06-20 16:48:54 - StrategyBacktester - INFO - ✅ 回测执行完成 / Backtest completed:
+2025-06-20 16:48:54 - StrategyBacktester - INFO -   - 处理K线数量 / Processed bars: 86
+2025-06-20 16:48:54 - StrategyBacktester - INFO -   - 生成信号数量 / Signals generated: 0
+2025-06-20 16:48:54 - StrategyBacktester - INFO -   - 执行交易数量 / Trades executed: 0
+2025-06-20 16:48:54 - StrategyBacktester - INFO - 📊 开始计算性能指标 / Starting to calculate performance metrics
+2025-06-20 16:48:54 - StrategyBacktester - INFO - ✅ 性能指标计算完成 / Performance metrics calculation completed
+2025-06-20 16:48:54 - StrategyBacktester - INFO - 📄 开始生成回测报告 / Starting to generate backtest report: results
+2025-06-20 16:48:54 - StrategyBacktester - INFO - ✅ 净值曲线导出 / Equity curve exported: results\equity_curve_20250620_164854.csv
+2025-06-20 16:48:54 - StrategyBacktester - INFO - ✅ 详细报告生成 / Detailed report generated: results\backtest_report_20250620_164854.md
+2025-06-20 16:51:33 - StrategyBacktester - INFO - 🚀 策略回测器初始化完成 / Strategy backtester initialized
+2025-06-20 16:51:33 - StrategyBacktester - INFO - 📊 开始加载数据 / Starting to load data: data/sample_kline.csv
+2025-06-20 16:51:33 - StrategyBacktester - INFO - ✅ 数据加载成功 / Data loaded successfully: 96 条记录 / records, 时间范围 / Time range: 2024-01-01 00:00:00 到 / to 2024-01-04 23:00:00
+2025-06-20 16:51:33 - StrategyBacktester - INFO - ⚙️ 开始初始化策略组件 / Starting to initialize strategy components
+2025-06-20 16:51:33 - StrategyBacktester - INFO - ✅ 策略初始化完成 / Strategy initialized
+2025-06-20 16:51:33 - StrategyBacktester - INFO - ✅ 投资组合初始化完成 / Portfolio initialized: $10,000.00
+2025-06-20 16:51:33 - StrategyBacktester - INFO - ✅ 交易执行器初始化完成 / Trade executor initialized
+2025-06-20 16:51:33 - StrategyBacktester - INFO - 🎯 开始执行回测 / Starting backtest for symbol: TEST
+2025-06-20 16:51:33 - StrategyBacktester - INFO - 📊 回测数据概览 / Backtest data overview:
+2025-06-20 16:51:33 - StrategyBacktester - INFO -   - 总K线数量 / Total bars: 96
+2025-06-20 16:51:33 - StrategyBacktester - INFO -   - 数据范围 / Data range: 2024-01-01 00:00:00 到 / to 2024-01-04 23:00:00
+2025-06-20 16:51:33 - StrategyBacktester - INFO - ⏳ 回测进度 / Progress: 100.0% (86/86), 组合价值 / Portfolio Value: $10,000.00
+2025-06-20 16:51:33 - StrategyBacktester - INFO - ✅ 回测执行完成 / Backtest completed:
+2025-06-20 16:51:33 - StrategyBacktester - INFO -   - 处理K线数量 / Processed bars: 86
+2025-06-20 16:51:33 - StrategyBacktester - INFO -   - 生成信号数量 / Signals generated: 0
+2025-06-20 16:51:33 - StrategyBacktester - INFO -   - 执行交易数量 / Trades executed: 0
+2025-06-20 16:51:33 - StrategyBacktester - INFO - 📊 开始计算性能指标 / Starting to calculate performance metrics
+2025-06-20 16:51:33 - StrategyBacktester - INFO - ✅ 性能指标计算完成 / Performance metrics calculation completed
+2025-06-20 16:51:33 - StrategyBacktester - INFO - 📄 开始生成回测报告 / Starting to generate backtest report: results
+2025-06-20 16:51:33 - StrategyBacktester - INFO - ✅ 净值曲线导出 / Equity curve exported: results\equity_curve_20250620_165133.csv
+2025-06-20 16:51:33 - StrategyBacktester - INFO - ✅ 详细报告生成 / Detailed report generated: results\backtest_report_20250620_165133.md
