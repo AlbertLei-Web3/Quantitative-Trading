@@ -10,28 +10,32 @@ screening:
   trend_check_days: 3       # 单边上涨检查天数 / Unilateral uptrend check days
 
 # 交易所配置 / Exchange Configuration
+# API密钥从.env文件读取 / API keys are read from .env file
 exchanges:
   # Bitget交易所配置 / Bitget Exchange Configuration
   bitget:
     enabled: true           # 是否启用 / Whether enabled
-    api_key: ""            # API密钥（可选，公开数据不需要） / API key (optional, not needed for public data)
-    secret_key: ""         # 密钥（可选） / Secret key (optional)
-    passphrase: ""         # 口令（可选） / Passphrase (optional)
+    use_env: true          # 使用环境变量 / Use environment variables
+    api_key_env: "BITGET_API_KEY"        # API密钥环境变量名 / API key env var name
+    secret_key_env: "BITGET_SECRET_KEY"  # 密钥环境变量名 / Secret key env var name
+    passphrase_env: "BITGET_PASSPHRASE"  # 口令环境变量名 / Passphrase env var name
     base_url: "https://api.bitget.com"
     
   # 币安交易所配置（预留） / Binance Exchange Configuration (Reserved)
   binance:
     enabled: false
-    api_key: ""
-    secret_key: ""
+    use_env: true
+    api_key_env: "BINANCE_API_KEY"
+    secret_key_env: "BINANCE_SECRET_KEY"
     base_url: "https://api.binance.com"
     
   # 欧易交易所配置（预留） / OKX Exchange Configuration (Reserved)  
   okx:
     enabled: false
-    api_key: ""
-    secret_key: ""
-    passphrase: ""
+    use_env: true
+    api_key_env: "OKX_API_KEY"
+    secret_key_env: "OKX_SECRET_KEY"
+    passphrase_env: "OKX_PASSPHRASE"
     base_url: "https://www.okx.com"
 
 # 扫描配置 / Scanning Configuration

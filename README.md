@@ -47,9 +47,55 @@ cd Quantitative-Trading
 pip install -r requirements.txt
 ```
 
-### 3. 配置设置 / Configuration Setup
-编辑配置文件 `config/scanner.yaml`：
-Edit configuration file `config/scanner.yaml`:
+### 3. 配置API密钥 / Configure API Keys
+
+#### 🔐 创建 .env 文件 / Create .env File
+```bash
+# 复制示例文件 / Copy example file  
+cp .env.example .env
+
+# 编辑 .env 文件，填入您的API密钥 / Edit .env file and fill in your API keys
+notepad .env  # Windows
+nano .env     # Linux/Mac
+```
+
+#### 🔑 配置Bitget API密钥 / Configure Bitget API Keys
+在 `.env` 文件中填入您的Bitget API信息：
+Fill in your Bitget API information in the `.env` file:
+
+```env
+# Bitget交易所API配置 / Bitget Exchange API Configuration
+BITGET_API_KEY=your_bitget_api_key_here
+BITGET_SECRET_KEY=your_bitget_secret_key_here  
+BITGET_PASSPHRASE=your_bitget_passphrase_here
+
+# 其他交易所（可选）/ Other Exchanges (Optional)
+BINANCE_API_KEY=your_binance_api_key_here
+BINANCE_SECRET_KEY=your_binance_secret_key_here
+```
+
+#### 📋 获取API密钥步骤 / Steps to Get API Keys
+1. **访问Bitget官网** / Visit Bitget Official Website
+   - 🌐 [https://www.bitget.com](https://www.bitget.com)
+   - 注册并完成身份验证 / Register and complete identity verification
+
+2. **创建API密钥** / Create API Key
+   - 登录后进入 **API管理** 页面 / After login, go to **API Management** page
+   - 点击 **创建API** / Click **Create API**
+   - 设置API权限（建议仅开启读取权限）/ Set API permissions (recommend read-only)
+
+3. **复制密钥信息** / Copy Key Information
+   - 📋 复制 `API Key`、`Secret Key` 和 `Passphrase`
+   - 🔒 粘贴到 `.env` 文件中对应位置
+
+**⚠️ 安全提醒 / Security Warning:**
+- `.env` 文件包含敏感信息，请勿分享或提交到版本控制
+- The `.env` file contains sensitive information, do not share or commit to version control
+- 建议仅开启读取权限，无需交易权限 / Recommend read-only permissions, no trading permissions needed
+
+#### ⚙️ 配置文件说明 / Configuration File Description
+系统配置文件 `config/scanner.yaml` 已自动配置为从环境变量读取API密钥：
+The system configuration file `config/scanner.yaml` is automatically configured to read API keys from environment variables:
 
 ```yaml
 # 筛选条件配置 / Screening Criteria Configuration
@@ -57,14 +103,15 @@ screening:
   top_rank_limit: 10        # 涨幅榜前N名 / Top N in gain ranking
   min_gain_percent: 80.0    # 最小涨幅百分比 / Minimum gain percentage  
   max_gain_days: 6          # 最大涨幅天数 / Maximum gain days
-  min_volume_24h: 100000    # 最小24小时交易量 / Minimum 24h volume
-  trend_check_days: 3       # 单边上涨检查天数 / Unilateral uptrend check days
 
-# 交易所配置 / Exchange Configuration
+# 交易所配置 / Exchange Configuration  
 exchanges:
   bitget:
     enabled: true           # 启用Bitget / Enable Bitget
-    api_key: ""            # API密钥（可选）/ API key (optional)
+    use_env: true          # 使用环境变量 / Use environment variables
+    api_key_env: "BITGET_API_KEY"        # API密钥环境变量名
+    secret_key_env: "BITGET_SECRET_KEY"  # 密钥环境变量名
+    passphrase_env: "BITGET_PASSPHRASE"  # 口令环境变量名
 ```
 
 ### 4. 运行筛选器 / Run Screener

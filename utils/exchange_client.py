@@ -1,10 +1,11 @@
 # 交易所客户端模块 - 专门处理与交易所API的交互 / Exchange Client Module - Specialized for handling exchange API interactions
 # 此文件负责连接Bitget等交易所，获取实时行情数据、涨幅榜单、历史K线数据 / This file handles connections to exchanges like Bitget, fetching real-time market data, gain rankings, historical kline data
-# 关联文件：core/market_scanner.py(市场扫描器), config/scanner.yaml(配置文件) / Related files: core/market_scanner.py(market scanner), config/scanner.yaml(config file)
+# 关联文件：core/market_scanner.py(市场扫描器), config/scanner.yaml(配置文件), .env(环境变量) / Related files: core/market_scanner.py(market scanner), config/scanner.yaml(config file), .env(environment variables)
 
 import asyncio
 import aiohttp
 import logging
+import os
 from datetime import datetime, timedelta
 from typing import List, Dict, Optional, Tuple
 import json
@@ -13,6 +14,10 @@ import hashlib
 import base64
 import hmac
 from urllib.parse import urlencode
+from dotenv import load_dotenv
+
+# 加载环境变量 / Load environment variables
+load_dotenv()
 
 # 设置日志 / Setup logging
 logging.basicConfig(level=logging.INFO)
@@ -314,11 +319,61 @@ class ExchangeManager:
         # 初始化支持的交易所 / Initialize supported exchanges
         if config.get('bitget', {}).get('enabled', True):
             bitget_config = config.get('bitget', {})
+            
+            # 从环境变量获取API密钥 / Get API keys from environment variables
+            if bitget_config.get('use_env', False):
+                api_key = os.getenv(bitget_config.get('api_key_env', 'BITGET_API_KEY'), '')
+                secret_key = os.getenv(bitget_config.get('secret_key_env', 'BITGET_SECRET_KEY'), '')
+                passphrase = os.getenv(bitget_config.get('passphrase_env', 'BITGET_PASSPHRASE'), '')
+                
+                logger.info(f"从环境变量加载Bitget API配置 / Loading Bitget API config from environment variables")
+                if api_key and secret_key and passphrase:
+                    logger.info("✅ Bitget API密钥加载成功 / Bitget API keys loaded successfully")
+                else:
+                    logger.warning("⚠️ Bitget API密钥未完全配置，将使用公开API / Bitget API keys not fully configured, will use public API")
+            else:
+                # 从配置文件获取API密钥（旧方式）/ Get API keys from config file (legacy)
+                api_key = bitget_config.get('api_key', '')
+                secret_key = bitget_config.get('secret_key', '')
+                passphrase = bitget_config.get('passphrase', '')
+            
             self.exchanges['bitget'] = BitgetClient(
-                api_key=bitget_config.get('api_key', ''),
-                secret_key=bitget_config.get('secret_key', ''),
-                passphrase=bitget_config.get('passphrase', '')
+                api_key=api_key,
+                secret_key=secret_key,
+                passphrase=passphrase
             )
+        
+        # 初始化币安交易所（如果启用）/ Initialize Binance exchange (if enabled)
+        if config.get('binance', {}).get('enabled', False):
+            binance_config = config.get('binance', {})
+            
+            if binance_config.get('use_env', False):
+                api_key = os.getenv(binance_config.get('api_key_env', 'BINANCE_API_KEY'), '')
+                secret_key = os.getenv(binance_config.get('secret_key_env', 'BINANCE_SECRET_KEY'), '')
+                logger.info("从环境变量加载Binance API配置 / Loading Binance API config from environment variables")
+            else:
+                api_key = binance_config.get('api_key', '')
+                secret_key = binance_config.get('secret_key', '')
+            
+            # 这里可以添加Binance客户端初始化 / Binance client initialization can be added here
+            logger.info("Binance交易所支持待实现 / Binance exchange support to be implemented")
+        
+        # 初始化欧易交易所（如果启用）/ Initialize OKX exchange (if enabled)
+        if config.get('okx', {}).get('enabled', False):
+            okx_config = config.get('okx', {})
+            
+            if okx_config.get('use_env', False):
+                api_key = os.getenv(okx_config.get('api_key_env', 'OKX_API_KEY'), '')
+                secret_key = os.getenv(okx_config.get('secret_key_env', 'OKX_SECRET_KEY'), '')
+                passphrase = os.getenv(okx_config.get('passphrase_env', 'OKX_PASSPHRASE'), '')
+                logger.info("从环境变量加载OKX API配置 / Loading OKX API config from environment variables")
+            else:
+                api_key = okx_config.get('api_key', '')
+                secret_key = okx_config.get('secret_key', '')
+                passphrase = okx_config.get('passphrase', '')
+            
+            # 这里可以添加OKX客户端初始化 / OKX client initialization can be added here
+            logger.info("OKX交易所支持待实现 / OKX exchange support to be implemented")
         
         logger.info(f"交易所管理器初始化完成，支持{len(self.exchanges)}个交易所 / Exchange manager initialized, supporting {len(self.exchanges)} exchanges")
     
