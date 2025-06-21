@@ -1,0 +1,74 @@
+# 市场扫描器配置文件 / Market Scanner Configuration File
+# 专门用于配置币种筛选的各种参数和交易所连接信息 / Specialized for configuring coin screening parameters and exchange connection information
+
+# 筛选条件配置 / Screening Criteria Configuration
+screening:
+  top_rank_limit: 10        # 涨幅榜前N名 / Top N in gain ranking
+  min_gain_percent: 80.0    # 最小涨幅百分比 / Minimum gain percentage  
+  max_gain_days: 6          # 最大涨幅天数 / Maximum gain days
+  min_volume_24h: 100000    # 最小24小时交易量 / Minimum 24h volume
+  trend_check_days: 3       # 单边上涨检查天数 / Unilateral uptrend check days
+
+# 交易所配置 / Exchange Configuration
+exchanges:
+  # Bitget交易所配置 / Bitget Exchange Configuration
+  bitget:
+    enabled: true           # 是否启用 / Whether enabled
+    api_key: ""            # API密钥（可选，公开数据不需要） / API key (optional, not needed for public data)
+    secret_key: ""         # 密钥（可选） / Secret key (optional)
+    passphrase: ""         # 口令（可选） / Passphrase (optional)
+    base_url: "https://api.bitget.com"
+    
+  # 币安交易所配置（预留） / Binance Exchange Configuration (Reserved)
+  binance:
+    enabled: false
+    api_key: ""
+    secret_key: ""
+    base_url: "https://api.binance.com"
+    
+  # 欧易交易所配置（预留） / OKX Exchange Configuration (Reserved)  
+  okx:
+    enabled: false
+    api_key: ""
+    secret_key: ""
+    passphrase: ""
+    base_url: "https://www.okx.com"
+
+# 扫描配置 / Scanning Configuration
+scanning:
+  interval_minutes: 30      # 扫描间隔（分钟） / Scanning interval (minutes)
+  auto_update: true         # 是否自动更新 / Whether to auto update
+  max_coins_monitor: 50     # 最大监控币种数量 / Maximum monitored coins count
+  history_keep_days: 7      # 历史记录保留天数 / History record retention days
+
+# 输出配置 / Output Configuration  
+output:
+  console_display: true     # 控制台显示 / Console display
+  export_csv: true          # 导出CSV文件 / Export CSV file
+  export_json: false        # 导出JSON文件 / Export JSON file
+  results_directory: "results"  # 结果目录 / Results directory
+  
+# 日志配置 / Logging Configuration
+logging:
+  level: "INFO"             # 日志级别 / Log level
+  file_enabled: true        # 是否启用文件日志 / Whether to enable file logging
+  file_path: "logs/scanner.log"  # 日志文件路径 / Log file path
+  max_file_size: "10MB"     # 最大文件大小 / Maximum file size
+  backup_count: 5           # 备份文件数量 / Backup file count
+
+# 风险控制配置 / Risk Control Configuration
+risk_control:
+  blacklist_symbols: []     # 黑名单币种 / Blacklisted symbols
+  whitelist_only: false     # 是否只允许白名单币种 / Whether to allow whitelist symbols only
+  whitelist_symbols: []     # 白名单币种 / Whitelisted symbols
+  min_market_cap: 0         # 最小市值要求 / Minimum market cap requirement
+  
+# 通知配置（预留功能） / Notification Configuration (Reserved Feature)
+notifications:
+  enabled: false            # 是否启用通知 / Whether to enable notifications
+  webhook_url: ""           # Webhook URL
+  email_enabled: false      # 邮件通知 / Email notification
+  email_smtp_server: ""     # SMTP服务器 / SMTP server
+  email_username: ""        # 邮箱用户名 / Email username  
+  email_password: ""        # 邮箱密码 / Email password
+  email_recipients: []      # 收件人列表 / Recipients list 

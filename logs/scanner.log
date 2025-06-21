@@ -1,0 +1,20 @@
+2025-06-21 10:17:33,883 - utils.helpers - INFO - 日志系统初始化完成 / Logging system initialized
+2025-06-21 10:17:33,883 - __main__ - INFO - 暴涨币种筛选器初始化完成 / Surging coin screener initialized
+2025-06-21 10:17:33,883 - utils.exchange_client - INFO - Bitget客户端初始化完成 / Bitget client initialized
+2025-06-21 10:17:33,883 - utils.exchange_client - INFO - 交易所管理器初始化完成，支持1个交易所 / Exchange manager initialized, supporting 1 exchanges
+2025-06-21 10:17:33,883 - core.market_scanner - INFO - 市场扫描器初始化完成 / Market scanner initialized - Top 10, Min gain: 80.0%, Max days: 6
+2025-06-21 10:17:33,883 - __main__ - INFO - 所有组件初始化完成 / All components initialized
+2025-06-21 10:17:33,883 - __main__ - INFO - ============================================================
+2025-06-21 10:17:33,883 - __main__ - INFO - 🚀 开始执行暴涨币种筛选 / Starting surging coin screening 🚀
+2025-06-21 10:17:33,883 - __main__ - INFO - ============================================================
+2025-06-21 10:17:33,899 - __main__ - INFO - 📊 正在获取涨幅榜前10名... / Fetching top 10 gainers...
+2025-06-21 10:17:33,899 - utils.exchange_client - INFO - 正在从bitget获取涨幅榜... / Fetching gain rankings from bitget...
+2025-06-21 10:17:33,899 - utils.exchange_client - INFO - 正在获取Bitget涨幅榜前20名... / Fetching top 20 gainers from Bitget...
+2025-06-21 10:17:44,283 - utils.exchange_client - ERROR - API请求超时 / API request timeout
+2025-06-21 10:17:44,284 - utils.exchange_client - WARNING - 未获取到Bitget涨幅榜数据 / No Bitget gain ranking data obtained
+2025-06-21 10:17:44,284 - utils.exchange_client - INFO - 聚合完成，返回前0名涨幅币种 / Aggregation completed, returning top 0 gaining coins
+2025-06-21 10:17:44,284 - __main__ - WARNING - ⚠️ 未获取到涨幅榜数据 / No gain ranking data obtained
+2025-06-21 10:17:44,284 - __main__ - INFO - 📝 暂无符合条件的币种 / No qualifying coins found
+2025-06-21 10:17:44,284 - __main__ - INFO - 无数据可导出 / No data to export
+2025-06-21 10:17:44,285 - utils.exchange_client - INFO - bitget会话已关闭 / bitget session closed
+2025-06-21 10:17:44,285 - __main__ - INFO - 资源清理完成 / Resource cleanup completed
