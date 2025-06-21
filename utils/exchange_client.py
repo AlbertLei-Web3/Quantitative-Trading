@@ -170,43 +170,90 @@ class BitgetClient:
             List[Dict]: 涨幅榜币种列表 / List of top gainer coins
         """
         try:
-            logger.info(f"正在获取Bitget涨幅榜前{limit}名... / Fetching top {limit} gainers from Bitget...")
+            logger.info(f"正在获取Bitget合约涨幅榜前{limit}名... / Fetching top {limit} contract gainers from Bitget...")
             
-            # 获取现货涨幅榜 / Get spot gain rankings
-            endpoint = "/api/spot/v1/market/tickers"
-            result = await self.make_request("GET", endpoint)
+            # 获取合约涨幅榜 - 使用V2 API / Get contract gain rankings - using V2 API
+            endpoint = "/api/v2/mix/market/tickers"
+            params = {
+                'productType': 'USDT-FUTURES'  # V2 API需要正确的产品类型 / V2 API requires correct product type
+            }
+            
+            result = await self.make_request("GET", endpoint, params=params)
             
             if not result:
-                logger.warning("未获取到Bitget涨幅榜数据 / No Bitget gain ranking data obtained")
+                logger.warning("未获取到Bitget合约涨幅榜数据 / No Bitget contract gain ranking data obtained")
                 return []
+            
+            # 添加调试信息 / Add debug information
+            logger.debug(f"合约涨幅榜API返回数据类型: {type(result)} / Contract gain ranking API return data type: {type(result)}")
+            if isinstance(result, list):
+                logger.debug(f"合约涨幅榜API返回数据长度: {len(result)} / Contract gain ranking API return data length: {len(result)}")
+                if result:
+                    logger.debug(f"合约涨幅榜API返回数据示例: {result[0]} / Contract gain ranking API return data example: {result[0]}")
+            elif isinstance(result, dict):
+                logger.debug(f"合约涨幅榜API返回数据键: {list(result.keys())} / Contract gain ranking API return data keys: {list(result.keys())}")
             
             # 处理数据并排序 / Process data and sort
             gainers = []
+            processed_count = 0
+            
+            # 确保result是列表 / Ensure result is a list
+            if isinstance(result, dict):
+                # 如果是字典，尝试找到数据键 / If dict, try to find data key
+                data_keys = ['data', 'tickers', 'ticker', 'list', 'items']
+                for key in data_keys:
+                    if key in result and isinstance(result[key], list):
+                        result = result[key]
+                        logger.info(f"找到数据键: {key} / Found data key: {key}")
+                        break
+                else:
+                    logger.warning("未找到数据列表，使用整个结果 / No data list found, using entire result")
+                    result = [result] if result else []
+            
             for ticker in result:
                 try:
+                    processed_count += 1
+                    logger.debug(f"处理第 {processed_count} 条数据: {ticker} / Processing record {processed_count}: {ticker}")
+                    
                     symbol = ticker.get('symbol', '')
+                    if not symbol:
+                        logger.debug(f"跳过无符号数据 / Skip data without symbol: {ticker}")
+                        continue
+                        
                     if not symbol.endswith('USDT'):  # 只关注USDT交易对 / Only focus on USDT pairs
                         continue
                     
-                    change_24h = float(ticker.get('change24h', 0))
-                    if change_24h <= 0:  # 只要上涨的币种 / Only rising coins
+                    # 尝试不同的涨幅字段名 / Try different gain field names
+                    change_24h = None
+                    for field in ['change24h', 'change24H', 'change', 'priceChangePercent', 'gain24h', 'changeRate']:
+                        if field in ticker:
+                            try:
+                                change_24h = float(ticker[field])
+                                break
+                            except (ValueError, TypeError):
+                                continue
+                    
+                    if change_24h is None or change_24h <= 0:  # 只要上涨的币种 / Only rising coins
                         continue
                     
                     coin_data = {
                         'symbol': symbol,
-                        'price': float(ticker.get('close', 0)),
+                        'price': float(ticker.get('close', ticker.get('last', ticker.get('lastPrice', ticker.get('lastPr', 0))))),
                         'gain_24h': change_24h,
-                        'volume': float(ticker.get('baseVolume', 0)),
-                        'quote_volume': float(ticker.get('quoteVolume', 0)),
-                        'high_24h': float(ticker.get('high24h', 0)),
-                        'low_24h': float(ticker.get('low24h', 0))
+                        'volume': float(ticker.get('baseVolume', ticker.get('volume', ticker.get('baseVol', 0)))),
+                        'quote_volume': float(ticker.get('quoteVolume', ticker.get('quoteVol', 0))),
+                        'high_24h': float(ticker.get('high24h', ticker.get('high', ticker.get('high24H', 0)))),
+                        'low_24h': float(ticker.get('low24h', ticker.get('low', ticker.get('low24H', 0))))
                     }
                     
                     gainers.append(coin_data)
+                    logger.debug(f"✅ 添加合约币种: {symbol} (24h涨幅: {change_24h:.2f}%) / Added contract coin: {symbol} (24h gain: {change_24h:.2f}%)")
                     
                 except (ValueError, TypeError) as e:
-                    logger.debug(f"跳过无效数据 / Skip invalid data: {ticker}")
+                    logger.debug(f"跳过无效数据 / Skip invalid data: {ticker}, error: {e}")
                     continue
+            
+            logger.info(f"处理完成，共处理 {processed_count} 条数据，找到 {len(gainers)} 个上涨合约币种 / Processing completed, processed {processed_count} records, found {len(gainers)} rising contract coins")
             
             # 按24小时涨幅排序并取前N名 / Sort by 24h gain and take top N
             gainers.sort(key=lambda x: x['gain_24h'], reverse=True)
@@ -216,11 +263,11 @@ class BitgetClient:
             for i, gainer in enumerate(top_gainers):
                 gainer['rank'] = i + 1
             
-            logger.info(f"成功获取Bitget涨幅榜前{len(top_gainers)}名 / Successfully fetched top {len(top_gainers)} gainers from Bitget")
+            logger.info(f"成功获取Bitget合约涨幅榜前{len(top_gainers)}名 / Successfully fetched top {len(top_gainers)} contract gainers from Bitget")
             return top_gainers
             
         except Exception as e:
-            logger.error(f"获取Bitget涨幅榜失败 / Failed to fetch Bitget gainers: {str(e)}")
+            logger.error(f"获取Bitget合约涨幅榜失败 / Failed to fetch Bitget contract gainers: {str(e)}")
             return []
     
     async def get_kline_data(self, symbol: str, interval: str = '1D', limit: int = 100) -> List[Dict]:
@@ -236,12 +283,30 @@ class BitgetClient:
         try:
             logger.debug(f"正在获取{symbol}的{interval}K线数据... / Fetching {interval} kline data for {symbol}...")
             
-            endpoint = "/api/spot/v1/market/candles"
+            # 使用V2合约K线API / Use V2 contract kline API
+            endpoint = "/api/v2/mix/market/candles"
+            
+            # 转换时间间隔格式 / Convert interval format
+            interval_map = {
+                '1D': '1D',
+                '4H': '4H', 
+                '1H': '1H',
+                '15m': '15m',
+                '5m': '5m',
+                '1m': '1m'
+            }
+            
+            granularity = interval_map.get(interval, '1D')
+            
+            # V2 API参数格式 / V2 API parameter format
             params = {
                 'symbol': symbol,
-                'granularity': interval,
-                'limit': limit
+                'granularity': granularity,
+                'limit': str(limit),
+                'productType': 'USDT-FUTURES'  # V2 API需要产品类型 / V2 API requires product type
             }
+            
+            logger.debug(f"K线API请求参数: {params} / Kline API request params: {params}")
             
             result = await self.make_request("GET", endpoint, params=params)
             
@@ -253,6 +318,8 @@ class BitgetClient:
             klines = []
             for kline in result:
                 try:
+                    # Bitget V2 K线数据格式: [timestamp, open, high, low, close, volume, quoteVolume]
+                    # Bitget V2 kline data format: [timestamp, open, high, low, close, volume, quoteVolume]
                     kline_data = {
                         'timestamp': int(kline[0]),
                         'open': float(kline[1]),
@@ -260,11 +327,12 @@ class BitgetClient:
                         'low': float(kline[3]),
                         'close': float(kline[4]),
                         'volume': float(kline[5]),
+                        'quote_volume': float(kline[6]) if len(kline) > 6 else 0,
                         'datetime': datetime.fromtimestamp(int(kline[0]) / 1000)
                     }
                     klines.append(kline_data)
                 except (ValueError, TypeError, IndexError) as e:
-                    logger.debug(f"跳过无效K线数据 / Skip invalid kline data: {kline}")
+                    logger.debug(f"跳过无效K线数据 / Skip invalid kline data: {kline}, error: {e}")
                     continue
             
             logger.debug(f"成功获取{symbol}的{len(klines)}条K线数据 / Successfully fetched {len(klines)} kline records for {symbol}")
