@@ -7,6 +7,7 @@ numpy>=1.21.0                 # 数值计算 / Numerical computing
 
 # 异步HTTP客户端 / Async HTTP Client
 aiohttp>=3.8.0                # 异步HTTP请求库 / Async HTTP request library
+aiohttp-socks>=0.8.0          # SOCKS代理支持 / SOCKS proxy support
 aiofiles>=0.8.0               # 异步文件操作 / Async file operations
 
 # 配置文件处理 / Configuration File Processing

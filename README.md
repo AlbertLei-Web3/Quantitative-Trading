@@ -72,6 +72,12 @@ BITGET_PASSPHRASE=your_bitget_passphrase_here
 # 其他交易所（可选）/ Other Exchanges (Optional)
 BINANCE_API_KEY=your_binance_api_key_here
 BINANCE_SECRET_KEY=your_binance_secret_key_here
+
+# 代理配置（中国用户必需）/ Proxy Configuration (Required for China users)
+USE_PROXY=true
+PROXY_HOST=127.0.0.1
+PROXY_PORT=10808         # 代理端口 / Proxy port
+PROXY_PROTOCOL=socks5    # 或 http，取决于端口类型 / or http, depends on port type
 ```
 
 #### 📋 获取API密钥步骤 / Steps to Get API Keys
@@ -88,10 +94,28 @@ BINANCE_SECRET_KEY=your_binance_secret_key_here
    - 📋 复制 `API Key`、`Secret Key` 和 `Passphrase`
    - 🔒 粘贴到 `.env` 文件中对应位置
 
+#### 🌐 代理配置（中国用户）/ Proxy Configuration (China Users)
+如果您在中国大陆，需要配置代理才能访问外网API：
+If you are in mainland China, you need to configure a proxy to access foreign APIs:
+
+```env
+# 代理配置 / Proxy Configuration
+USE_PROXY=true
+PROXY_HOST=127.0.0.1        # 代理服务器地址 / Proxy server address
+PROXY_PORT=10808            # 代理端口 / Proxy port
+PROXY_PROTOCOL=socks5       # 代理协议：socks5 或 http / Proxy protocol: socks5 or http
+```
+
+**📋 常见代理设置 / Common Proxy Settings:**
+- **V2Ray/Xray**: 通常使用 `socks5://127.0.0.1:10808`
+- **Clash**: 通常使用 `http://127.0.0.1:7890` 或 `socks5://127.0.0.1:7891`
+- **Shadowsocks**: 通常使用 `socks5://127.0.0.1:1080`
+
 **⚠️ 安全提醒 / Security Warning:**
 - `.env` 文件包含敏感信息，请勿分享或提交到版本控制
 - The `.env` file contains sensitive information, do not share or commit to version control
 - 建议仅开启读取权限，无需交易权限 / Recommend read-only permissions, no trading permissions needed
+- 代理配置仅在本地使用，不会泄露到网络 / Proxy configuration is only used locally, not leaked to network
 
 #### ⚙️ 配置文件说明 / Configuration File Description
 系统配置文件 `config/scanner.yaml` 已自动配置为从环境变量读取API密钥：

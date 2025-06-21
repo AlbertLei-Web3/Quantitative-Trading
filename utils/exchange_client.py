@@ -15,6 +15,7 @@ import base64
 import hmac
 from urllib.parse import urlencode
 from dotenv import load_dotenv
+from .proxy_config import get_proxy_config
 
 # 加载环境变量 / Load environment variables
 load_dotenv()
@@ -43,12 +44,21 @@ class BitgetClient:
         self.base_url = "https://api.bitget.com"  # Bitget API基础URL / Bitget API base URL
         self.session = None
         
+        # 获取代理配置 / Get proxy configuration
+        self.proxy_config = get_proxy_config()
+        
         logger.info("Bitget客户端初始化完成 / Bitget client initialized")
     
     async def create_session(self):
         """创建HTTP会话 / Create HTTP session"""
         if self.session is None:
-            self.session = aiohttp.ClientSession()
+            # 使用代理配置创建连接器和会话 / Create connector and session with proxy configuration
+            connector = await self.proxy_config.create_connector()
+            session_kwargs = self.proxy_config.get_session_kwargs()
+            session_kwargs['connector'] = connector
+            
+            self.session = aiohttp.ClientSession(**session_kwargs)
+            logger.debug(f"HTTP会话创建完成 ({self.proxy_config.get_proxy_info()}) / HTTP session created ({self.proxy_config.get_proxy_info()})")
     
     async def close_session(self):
         """关闭HTTP会话 / Close HTTP session"""
